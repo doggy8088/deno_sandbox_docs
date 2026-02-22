@@ -53,6 +53,7 @@ export function renderHtmlPage(opts: {
         <span class="sr-only">Search docs</span>
         <input id="search-input" type="search" placeholder="${page.lang === 'en' ? 'Search docs' : '搜尋文件'}">
       </label>
+      <button id="theme-toggle" class="ghost theme-toggle" type="button" aria-label="${page.lang === 'en' ? 'Toggle theme' : '切換主題'}" title="${page.lang === 'en' ? 'Toggle theme' : '切換主題'}">🌙</button>
       <div class="lang-switch">
         <a ${page.lang === 'en' ? 'aria-current="page"' : ''} href="${enPage?.routePath ?? '#'}">EN</a>
         <a ${page.lang === 'zh-tw' ? 'aria-current="page"' : ''} href="${zhPage?.routePath ?? '#'}">繁中</a>
