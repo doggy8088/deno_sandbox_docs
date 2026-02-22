@@ -1,31 +1,29 @@
-# Deno Deploy 應用程式的程式設計管理
+# 以程式方式管理 Deno Deploy 應用程式
 
-除了配置 microVM 之外，此 SDK 還提供用於建立和管理的 API
-在組織內部Deploy 應用程式。自動化這些工作流程可以在以下情況下提供協助：
-你需要：
+除了建立 microVM 之外，這個 SDK 也提供 API，可在組織內建立與管理
+Deploy 應用程式。當你需要以下能力時，自動化這些流程會很有幫助：
 
-- 啟動獨立的應用程式以進行預覽或品質檢查
-- 保持多個環境同步
-- 將 Deploy 設定直接整合到您的 CI/CD 中
-- 按計劃清理陳舊或未使用的應用程序
+- 建立隔離的應用程式做預覽或 QA
+- 讓多個環境保持同步
+- 將 Deploy 建立流程直接整合進 CI/CD
+- 定期清理陳舊或未使用的應用程式
 
-SDK 封裝了 [Deno Deploy REST API](https://console.deno.com/api/v2/docs)。
+本 SDK 封裝了 [Deno Deploy REST API](https://console.deno.com/api/v2/docs)。
 
-## 入門
+## 開始使用
 
 ### 驗證
 
-您將需要具有適當管理權限的 Deno Deploy API Token
-應用程式.您可以在 Deno Deploy 主控台的 **Sandboxes** > 下找到您的Token
-**整合到您的應用程式中**。
+你需要一個具備適當權限、可用來管理應用程式的 Deno Deploy API token。
+你可以在 Deno Deploy 主控台的 **Sandboxes** > **Integrate into your app**
+找到 token。
 
-如果您沒有，請按一下 **+ 建立Token** 按鈕以產生新Token
-還有一個。
+如果你還沒有 token，請點選 **+ Create Token** 按鈕建立新的 token。
 
-傳遞 `DENO_DEPLOY_TOKEN` 環境變量，範圍僅限於您的組織，
-當實例化客戶端或建立沙箱來管理應用程式。 `Client`
-類別公開每個應用程式的建立、清單、檢索、更新和刪除方法
-屬於Token範圍內的組織。
+在初始化客戶端或建立沙箱來管理應用程式時，請傳入
+`DENO_DEPLOY_TOKEN` 環境變數，且該 token 必須限定在你的組織範圍。
+`Client` 類別會針對 token 所屬組織中的每個應用程式，提供建立、列出、
+取得、更新與刪除方法。
 
 ### 初始化客戶端
 
@@ -47,10 +45,10 @@ from deno_sandbox import AsyncDenoDeploy
 sdk = AsyncDenoDeploy()
 ```
 
-SDK 使用相同的 `DENO_DEPLOY_TOKEN` 環境變量
-驗證。提供您要管理的組織範圍內的Token。
+SDK 也使用同一個 `DENO_DEPLOY_TOKEN` 環境變數進行驗證。請提供
+限定在你要管理之組織範圍內的 token。
 
-## 創建一個應用程式
+## 建立應用程式
 
 ```
 const app = await client.apps.create({
@@ -90,9 +88,8 @@ print(app)
 # }
 ```
 
-`slug` 是必需的，且在組織內必須是唯一的。你也會
-能夠提供可選的元數據，例如 `name` 和 `description` 作為 API
-進化。
+`slug` 是必填，且在組織內必須唯一。隨著 API 持續演進，之後也可提供
+`name`、`description` 等選填中繼資料。
 
 ## 列出應用程式
 
@@ -121,10 +118,9 @@ async for item in page:
   print(item["slug"])  # paginated iterator
 ```
 
-使用迭代來遍歷組織中的每個應用程序，而無需管理遊標
-你自己。
+使用迭代即可走訪組織中的所有應用程式，不必自行管理游標。
 
-## 檢索應用程式
+## 取得應用程式
 
 ```
 const appBySlug = await client.apps.get("my-app-from-sdk");
@@ -141,10 +137,9 @@ app_by_slug = await sdk.apps.get("my-app-from-sdk")
 app_by_id = await sdk.apps.get("bec265c1-ed8e-4a7e-ad24-e2465b93be88")
 ```
 
-抓取支援 slug 或 UUID，方便使用
-您手邊有識別符。
+可使用 slug 或 UUID 來取得，方便直接使用手邊已有的識別碼。
 
-## 更新應用程式元數據
+## 更新應用程式中繼資料
 
 ```
 const updated = await client.apps.update(
@@ -170,8 +165,8 @@ updated = await sdk.apps.update(
 print(updated["slug"])  # "my-cool-app"
 ```
 
-當團隊重新命名服務或您想要強制執行一致時，這很方便
-跨組織的 slug 模式。
+當團隊重新命名服務，或你想在多個組織間強制採用一致的 slug 命名模式時，
+這會很方便。
 
 ## 刪除應用程式
 
@@ -190,14 +185,13 @@ await sdk.apps.delete("legacy-chaotic-app")
 await sdk.apps.delete("bec265c1-ed8e-4a7e-ad24-e2465b93be88")
 ```
 
-刪除接受任一標識符。刪除後，關聯的建置和路由
-會自動清理。
+刪除可接受任一識別碼。刪除後，相關的建置與路由會自動清理。
 
 ## 從沙箱發佈到 Deploy 應用程式
 
-`sandbox.deno.deploy()` 方法可用來從
-沙箱到現有的 Deno Deploy 應用程式。這允許您使用沙箱作為
-Deno Deploy 上託管的應用程式的Deploy管道。
+`sandbox.deno.deploy()` 方法可用於將沙箱中的資源發佈到既有的 Deno
+Deploy 應用程式。這讓你可以把沙箱當成部署到 Deno Deploy 託管應用程式
+的部署管線。
 
 ```
 await using sandbox = await Sandbox.create();

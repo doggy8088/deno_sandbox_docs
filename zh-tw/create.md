@@ -1,8 +1,7 @@
-# 創建 Deno Sandbox
+# 建立 Deno Sandbox
 
-沙箱創建方法是配置沙箱的主要入口點
-Deploy 邊緣上的隔離 Linux microVM。它會傳回一個連接的沙箱
-可用於執行指令、上傳檔案、公開 HTTP 端點的實例，
+建立沙箱的方法，是在 Deploy edge 上佈建隔離 Linux microVM 的主要入口點。
+它會回傳一個已連線的沙箱實例，你可以用它來執行命令、上傳檔案、公開 HTTP 端點，
 或請求 SSH 存取。
 
 ```
@@ -29,25 +28,25 @@ async with sdk.sandbox.create() as sandbox:
   print(f"Sandbox {sandbox.id} is ready.")
 ```
 
-預設情況下，這會在最近的Deploy區域中建立一個臨時沙箱
-1280 MB RAM，無出站網路存取，並且超時綁定到當前
-過程。您可以透過傳遞選項物件來定製沙箱。
+預設情況下，這會在距離最近的 Deploy 區域建立一個短暫型（ephemeral）沙箱，
+具備 1280 MB RAM、沒有對外網路存取權，且逾時設定會綁定到目前程序。你可以透過傳入選項物件
+自訂沙箱。
 
 ## 可用選項
 
-|選項 |說明 |
+| Option | Description |
 | --- | --- |
 | `region` |例如 `ams` 或 `ord` |
-| `allowNet``allow_net` |允許的出站主機的選用清單。請參閱[出站網路控制](security.md#outbound-network-control)。 |
-| `secrets` |用於替代對批准的主機的出站請求的秘密。請參閱[秘密編輯和替換](security.md#secret-redaction-and-substitution)。 |
-| `memoryMb``memory_mb` |為記憶體密集型任務或預算緊張的任務分配 768 到 4096 MB 的 RAM。 |
-| `timeout` | [沙箱存活多久](timeouts.md) 以 (m) 或 (s) 表示，例如 `5m` |
-| `labels` |附加任意鍵/值標籤以協助識別和管理沙箱 |
-| `env` |用於啟動沙箱的環境變數。 |
+| `allowNet``allow_net` |可選的允許對外連線主機清單。參見 [Outbound network control](security.md#outbound-network-control)。 |
+| `secrets` |對核准主機的對外請求所使用的機密替換設定。參見 [Secret redaction and substitution](security.md#secret-redaction-and-substitution)。 |
+| `memoryMb``memory_mb` |可配置 768 到 4096 MB RAM，適合記憶體密集工作或較緊的預算。 |
+| `timeout` |[沙箱存活時間](timeouts.md)，以 (m) 或 (s) 表示，例如 `5m` |
+| `labels` |附加任意 key/value 標籤，協助識別與管理沙箱 |
+| `env` |啟動沙箱時預設提供的環境變數。 |
 
-## 配置範例
+## 設定範例
 
-### 允許特定 API 的出站流量
+### 允許對特定 API 的對外流量
 
 ```
 const sandbox = await Sandbox.create({
@@ -73,7 +72,7 @@ async with sdk.sandbox.create(
   print(f"Sandbox {sandbox.id} is ready.")
 ```
 
-### 為核准的主機配置秘密替換
+### 為核准主機設定機密替換
 
 ```
 const sandbox = await Sandbox.create({
@@ -123,7 +122,7 @@ async with sdk.sandbox.create(
   print(f"Sandbox {sandbox.id} is ready.")
 ```
 
-### 在具有更多記憶體的特定區域中運行
+### 在特定區域執行並提高記憶體
 
 ```
 const sandbox = await Sandbox.create({
@@ -152,7 +151,7 @@ async with sdk.sandbox.create(
   print(f"Sandbox {sandbox.id} is ready.")
 ```
 
-### 保持沙箱處於活動狀態以供以後檢查
+### 讓沙箱保持運作，以便稍後檢查
 
 ```
 const sandbox = await Sandbox.create({ timeout: "10m" });
@@ -222,13 +221,10 @@ async with sdk.sandbox.create(
   print(f"Sandbox {sandbox.id} is ready.")
 ```
 
-## 尖端
+## Tips
 
-- 盡可能保持網路白名單狹窄，以阻止滲透嘗試。
-- 使用 `agentId` 或 `customerId` 等元資料鍵來追蹤沙箱
-  Deploy 主控台。
-- 讓上下文管理器 (Python) 或自動處置 (JavaScript) 處理
-  清理。僅當您需要在之前終止它時才呼叫 `sandbox.kill()`
-  那個自動清理。
-- 對於長期服務，一旦
-  代碼穩定。
+- 盡量縮小網路允許清單，降低資料外洩（exfiltration）嘗試的風險。
+- 使用 `agentId` 或 `customerId` 等 metadata key，方便在 Deploy 儀表板追蹤沙箱。
+- 讓 context manager（Python）或自動釋放機制（JavaScript）處理清理工作。只有在需要提前終止時才呼叫
+  `sandbox.kill()`。
+- 對於長時間運作的服務，當程式碼穩定後，應從 Deno Sandbox 遷移到 Deploy app。

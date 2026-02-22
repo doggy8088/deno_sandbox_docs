@@ -1,40 +1,36 @@
 # 入門
 
-要使用 Deno Sandbox，您需要一個 Deno Deploy 帳戶。如果您還沒有
-您可以在以下位置註冊一個免費帳戶：
-[console.deno.com](https://console.deno.com)。
+要使用 Deno Sandbox，你需要有 Deno Deploy 帳戶。若你還沒有帳戶，可以到
+[console.deno.com](https://console.deno.com) 註冊免費帳戶。
 
-## 造訪 Deno Sandbox主控台
+## 進入 Deno Sandbox 儀表板
 
-1. 造訪 [console.deno.com](https://console.deno.com/) 並使用您的帳戶登入
-   Deploy 帳戶。
-2. 選擇或建立您想要執行 Deno Sandbox 的組織。
-3. 打開 **沙箱** 標籤以查看現有沙箱、生命週期使用情況和
-   存取Token。
+1. 前往 [console.deno.com](https://console.deno.com/) 並使用你的 Deploy 帳戶登入。
+2. 選擇或建立你要執行 Deno Sandbox 的組織。
+3. 開啟 **Sandboxes** 分頁，查看既有沙箱、生命週期使用量與存取權杖。
 
-Deno Sandbox 和 Deno Deploy 應用程式共享相同的組織邊界，因此您
-可以在兩個產品中重複使用成員、Token和可觀察性設定。
+Deno Sandbox 與 Deno Deploy app 共用相同的組織邊界，因此可在兩個產品之間重複使用成員、
+權杖與可觀測性設定。
 
-## 創建組織Token
+## 建立組織權杖
 
-`@deno/sandbox` SDK 使用 `DENO_DEPLOY_TOKEN` 環境進行身份驗證
-變數。從 **設定 → 組織Token** 產生它，複製值，
-並妥善保管。然後將其匯出到本地 shell 或 CI 作業中：
+`@deno/sandbox` SDK 使用 `DENO_DEPLOY_TOKEN` 環境變數進行驗證。請到
+**Settings → Organization tokens** 產生權杖、複製其值，並妥善保存。接著在本機 shell
+或 CI 工作中匯出：
 
 ```
 export DENO_DEPLOY_TOKEN=<your-token>
 ```
 
-![Deno Deploy 組織Token畫面。](../assets/sandbox/images/org-tokens.webp)
+![Deno Deploy 組織權杖畫面。](../assets/sandbox/images/org-tokens.webp)
 
-Token安全
+權杖安全性
 
-請將此 Token 視為正式環境機密，若有外洩風險請立即在主控台輪替
-如果它被暴露了。
+請將此權杖視同任何正式環境機密。若曾外洩，請立即在儀表板中輪替。
 
-## 安裝SDK
+## 安裝 SDK
 
-該 SDK 可在 Deno 和 Node.js 環境中運作。
+此 SDK 可在 Deno 與 Node.js 環境中使用。
 
 ```
 # Using Deno
@@ -50,7 +46,7 @@ pnpm install jsr:@deno/sandbox
 yarn add jsr:@deno/sandbox
 ```
 
-此 SDK 可在 Python 版本 `>=3.10` 中運作。
+此 SDK 可在 Python `>=3.10` 版本中使用。
 
 ```
 # Install with uv
@@ -60,7 +56,7 @@ uv add deno-sandbox
 pip install deno-sandbox
 ```
 
-## 創建您的第一個沙箱
+## 建立你的第一個沙箱
 
 main.ts
 
@@ -103,25 +99,23 @@ if __name__ == '__main__':
   asyncio.run(main())
 ```
 
-## 運行您的沙箱程式碼
+## 執行沙箱程式碼
 
-此程式碼將需要存取網路才能到達Deploy 邊緣
-將建立沙箱，並存取環境變量
-使用 Deploy API 進行身份驗證，因此我們將傳入 `--allow-net` 和
-`--allow-env` 標記為 `deno run` 指令（或使用簡寫 `-EN`）。
+這段程式碼需要網路存取權，才能連到建立沙箱所需的 Deploy edge，也需要存取環境變數以向
+Deploy API 驗證，因此我們會在 `deno run` 指令傳入 `--allow-net` 與 `--allow-env`
+旗標（或使用縮寫 `-EN`）。
 
 ```
 deno -EN main.ts
 ```
 
-若要執行我們剛剛建立的腳本，請執行：
+若要執行剛剛建立的腳本，請執行：
 
 ```
 uv run main.py
 ```
 
-您建立的任何沙箱都將列在 Deno 的 **沙箱** 標籤中
-Deploy 組織。
+你建立的任何沙箱都會列在 Deno Deploy 組織的 **Sandboxes** 分頁中。
 
 ![在 Deno Deploy 主控台中建立的沙箱清單。](../assets/sandbox/images/sandbox-list.webp)
 
@@ -129,21 +123,20 @@ Deploy 組織。
 
 ![Deno Deploy 主控台中的沙箱事件日誌詳細資料。](../assets/sandbox/images/sandbox-event-log.webp)
 
-## 配置您的沙箱
+## 設定沙箱
 
-使用 `Sandbox.create()` 建立沙箱時，可以使用下列命令對其進行配置
-以下選項：
+使用 `Sandbox.create()` 建立沙箱時，可以透過下列選項進行設定：
 
 - `allowNet``allow_net`：
-  允許的出站主機的可選清單。看
-  [出站網路控制](security.md#outbound-network-control)。
-- `secrets`：出站請求的秘密替換規則。看
-  [秘密編輯和替換](security.md#secret-redaction-and-substitution)。
-- `region`：Deploy將在其中建立沙箱的區域。
+  可選的允許對外連線主機清單。參見
+  [Outbound network control](security.md#outbound-network-control)。
+- `secrets`：對外請求的機密替換規則。參見
+  [Secret redaction and substitution](security.md#secret-redaction-and-substitution)。
+- `region`：建立沙箱的 Deploy 區域。
 - `memoryMb``memory_mb`：
-  分配給沙箱的內存量。
-- `timeout`：沙箱逾時。
-- `labels`：任意鍵/值標籤，幫助識別和管理沙箱
+  配置給沙箱的記憶體容量。
+- `timeout`：沙箱逾時時間。
+- `labels`：任意 key/value 標籤，協助識別與管理沙箱
 
 ```
 await using sandbox = await Sandbox.create({
@@ -179,12 +172,11 @@ async with sdk.sandbox.create(
   print(f"Sandbox {sandbox.id} is ready.")
 ```
 
-## 運行命令和腳本
+## 執行命令與腳本
 
-Deno Sandbox 公開了熟悉的檔案系統和進程 API 來執行命令，
-上傳文件並產生長時間運行的服務。
+Deno Sandbox 提供熟悉的檔案系統與行程 API，可執行命令、上傳檔案，以及啟動長時間運作的服務。
 
-例如，您可以列出根目錄中的檔案：
+例如，你可以列出根目錄中的檔案：
 
 ```
 await sandbox.sh`ls -lh /`;
@@ -200,7 +192,7 @@ process = await sandbox.spawn("ls", args=["-lh", "/"])
 await process.wait()
 ```
 
-或從本機檔案系統上傳腳本並運行它：
+或是從本機檔案系統上傳腳本並執行：
 
 ```
 // Upload a file to a specific path in the sandbox
@@ -233,15 +225,13 @@ async for chunk in proc.stdout:
 await proc.wait()
 ```
 
-您可以保持命令之間的狀態、串流 stdout 和 stderr，或開啟一個
-用於代理式工作流程的互動式 REPL。
+你可以在命令之間保留狀態、串流 stdout 與 stderr，或開啟互動式 REPL 以支援 agent 式工作流程。
 
 ## 從 Deno Sandbox 部署
 
-下面的程式碼片段介紹了端到端的工作流程：它創建了一個 Deploy 應用程序，
-啟動高內存沙箱以進行較重的構建、腳手架並構建 Next.js
-該虛擬機器內的項目，然後呼叫 `sandbox.deno.deploy()` 來推送已編譯的
-將建置日誌流回終端時的工件。
+以下程式碼片段示範端到端工作流程：建立一個 Deploy app、啟動高記憶體沙箱來執行較重的建置、
+在該 VM 內建立並建置 Next.js 專案，接著呼叫 `sandbox.deno.deploy()` 推送編譯後產物，
+同時將建置日誌串流回你的終端機。
 
 ```
 import { Client, Sandbox } from "@deno/sandbox";
@@ -326,15 +316,13 @@ async with sdk.sandbox.create(memory_mb=4096) as sandbox:
     print(log["message"])
 ```
 
-## 調整逾時、清理和重新連接
+## 調整逾時、清理與重新連線
 
-- `timeout: "session"`（預設）會在腳本完成後銷毀虛擬機器。
-- 提供諸如 `"5m"` 之類的持續時間，以確保沙箱即使在
-  客戶端斷開連線。您可以稍後 `Sandbox.connect({ id })` 恢復工作。
-- 當您的程式碼刪除最後一個引用（或
-  `await using` 區塊結束）。僅當您需要撕毀時才致電 `sandbox.kill()`
-  VM 提前關閉。
+- `timeout: "session"`（預設）會在腳本執行完成後銷毀 VM。
+- 提供像 `"5m"` 這樣的時間長度，可讓沙箱在用戶端斷線後仍持續存活。之後可用
+  `Sandbox.connect({ id })` 繼續工作。
+- 當程式碼釋放最後一個參照（或 `await using` 區塊結束）時會自動清理。只有在你需要提前拆除
+  VM 時才呼叫 `sandbox.kill()`。
 
-可觀察性與 Deno Deploy 共享：每個沙箱日誌、追蹤和指標
-在 Deno Deploy 主控台中可見，因此您可以以相同的方式偵錯代理程式運行
-您調試生產應用程式。
+Deno Sandbox 與 Deno Deploy 共用可觀測性：每個沙箱的日誌、追蹤與指標都會出現在 Deno Deploy
+儀表板中，因此你可以用和正式環境 app 相同的方式偵錯 agent 執行流程。
