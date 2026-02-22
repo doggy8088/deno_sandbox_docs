@@ -1,0 +1,83 @@
+[
+  {
+    "url": "https://docs.deno.com/sandbox/",
+    "slug": "index",
+    "en": "en/index.md",
+    "zh_tw": "zh-tw/index.md",
+    "assets_downloaded": []
+  },
+  {
+    "url": "https://docs.deno.com/sandbox/apps/",
+    "slug": "apps",
+    "en": "en/apps.md",
+    "zh_tw": "zh-tw/apps.md",
+    "assets_downloaded": []
+  },
+  {
+    "url": "https://docs.deno.com/sandbox/cli/",
+    "slug": "cli",
+    "en": "en/cli.md",
+    "zh_tw": "zh-tw/cli.md",
+    "assets_downloaded": []
+  },
+  {
+    "url": "https://docs.deno.com/sandbox/create/",
+    "slug": "create",
+    "en": "en/create.md",
+    "zh_tw": "zh-tw/create.md",
+    "assets_downloaded": []
+  },
+  {
+    "url": "https://docs.deno.com/sandbox/expose_http/",
+    "slug": "expose_http",
+    "en": "en/expose_http.md",
+    "zh_tw": "zh-tw/expose_http.md",
+    "assets_downloaded": []
+  },
+  {
+    "url": "https://docs.deno.com/sandbox/getting_started/",
+    "slug": "getting_started",
+    "en": "en/getting_started.md",
+    "zh_tw": "zh-tw/getting_started.md",
+    "assets_downloaded": [
+      "assets/sandbox/images/org-tokens.webp",
+      "assets/sandbox/images/sandbox-event-log.webp",
+      "assets/sandbox/images/sandbox-list.webp"
+    ]
+  },
+  {
+    "url": "https://docs.deno.com/sandbox/promote/",
+    "slug": "promote",
+    "en": "en/promote.md",
+    "zh_tw": "zh-tw/promote.md",
+    "assets_downloaded": []
+  },
+  {
+    "url": "https://docs.deno.com/sandbox/security/",
+    "slug": "security",
+    "en": "en/security.md",
+    "zh_tw": "zh-tw/security.md",
+    "assets_downloaded": []
+  },
+  {
+    "url": "https://docs.deno.com/sandbox/ssh/",
+    "slug": "ssh",
+    "en": "en/ssh.md",
+    "zh_tw": "zh-tw/ssh.md",
+    "assets_downloaded": []
+  },
+  {
+    "url": "https://docs.deno.com/sandbox/timeouts/",
+    "slug": "timeouts",
+    "en": "en/timeouts.md",
+    "zh_tw": "zh-tw/timeouts.md",
+    "assets_downloaded": []
+  },
+  {
+    "url": "https://docs.deno.com/sandbox/volumes/",
+    "slug": "volumes",
+    "en": "en/volumes.md",
+    "zh_tw": "zh-tw/volumes.md",
+    "assets_downloaded": []
+  }
+]
