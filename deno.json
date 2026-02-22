@@ -1,7 +1,8 @@
 {
   "tasks": {
     "docs:build": "deno run -A generator/main.ts build",
-    "docs:test": "deno test -A generator"
+    "docs:test": "deno test -A generator",
+    "docs:serve": "deno run -A jsr:@std/http/file-server dist --port 8000"
   },
   "fmt": {
     "lineWidth": 100,
