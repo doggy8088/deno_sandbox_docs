@@ -1,0 +1,12 @@
+{
+  "tasks": {
+    "docs:build": "deno run -A generator/main.ts build",
+    "docs:test": "deno test -A generator"
+  },
+  "fmt": {
+    "lineWidth": 100,
+    "indentWidth": 2,
+    "semiColons": true,
+    "singleQuote": true
+  }
+}
